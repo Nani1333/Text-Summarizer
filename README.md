@@ -1,129 +1,133 @@
-# **Text Summarization App**
+# 📝 Text Summarizer
 
-A simple yet powerful web application that allows users to input text or dialogues and get a concise summary instantly. Built with a **Python backend** powered by a **summarization model**, and a **frontend** designed using **HTML, CSS, and JavaScript**. This app provides an easy-to-use interface with real-time results for text summarization.
-
----
-
-## **Features**
-
-* **Text Summarization**: Users can input any text or dialogue, and the app will generate a summary.
-* **Real-time Summarization**: Immediate response with the summary after text submission.
-* **Responsive Design**: Optimized for both desktop and mobile views with a simple, clean UI.
-* **Lightweight**: The app is designed to work efficiently and is easy to deploy.
+A Python-based text summarization tool that uses transformer models like BART or T5 to generate concise summaries from longer input text. It leverages the Hugging Face Transformers library for state-of-the-art natural language processing.
 
 ---
 
-## **Technologies Used**
+## 🚀 Features
 
-* **Frontend**:
-
-  * HTML
-  * CSS (for styling)
-  * JavaScript (for handling user interactions)
-* **Backend**:
-
-  * Python (for running the summarization model)
-  * Flask (for backend services)
-* **Model**:
-
-  * Summarization model built with a deep learning framework (e.g., Hugging Face, GPT-based models)
+- Automatically generates short summaries of long passages.
+- Supports both online model loading and local saved models.
+- Clean and modular Python code.
+- Easily extendable or integrable with other applications (like chatbots, document processing tools, etc.).
 
 ---
 
-## **Installation Instructions**
+## 🧠 Model Information
 
-### **Prerequisites**
+This project uses a **transformer-based summarization model** such as:
 
-Before running the project, ensure you have the following installed:
+- `facebook/bart-large-cnn`
+- `t5-base`
 
-1. **Python 3.x**: Required to run the backend.
-2. **Node.js** (optional, if you’re planning to enhance the frontend with Node.js-based features).
+You can either:
+- Load the model dynamically from Hugging Face (recommended).
+- Or use a locally saved model inside the `saved_summarization_model/` directory (if available).
 
-### **Clone the Repository**
+---
 
-To clone the repository, run the following command in your terminal:
+## 📦 Installation
+
+1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/text-summarization-app.git
+git clone https://github.com/Nani1333/Text-Summarizer.git
+cd Text-Summarizer
 ```
 
-### **Backend Setup**
+2. **Install dependencies**
 
-1. Navigate to the project directory:
+```bash
+pip install -r requirements.txt
+```
 
-   ```bash
-   cd text-summarization-app
-   ```
+If `requirements.txt` is missing, you can install manually:
 
-2. Set up a **Python virtual environment** (recommended):
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
-
-3. Install the required Python dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Model Setup**:
-
-   * Ensure that the summarization model is available and accessible for your backend. You may need to download a pre-trained model, for instance, from **Hugging Face** if using a transformer-based model.
-
-5. Run the backend server:
-
-   ```bash
-   python app.py  # or your entry file for Flask
-   ```
-
-6. The backend server will now be running on `http://localhost:5000/` (or another port if specified).
-
-### **Frontend Setup**
-
-1. If you are enhancing the frontend or want to run the app independently:
-
-   * Open the `index.html` file in your browser directly, or
-   * Set up a local server (for example, using **VS Code Live Server** or a similar extension).
-
-2. The front end will now be live and accessible at `http://localhost:5000` or `file://index.html` if opened locally.
+```bash
+pip install torch transformers sentencepiece
+```
 
 ---
 
-## **How to Use**
+## 📁 Project Structure
 
-1. Open the **Text Summarization App** in your browser.
-2. **Input the dialogue or text** that you want to summarize in the provided text area.
-3. Press the **"Summarize"** button to generate the summary.
-4. The summary will appear instantly below the input box in the "Summary" section.
-5. If needed, you can enter new text and summarize again.
-
----
-
-## **Contributing**
-
-We welcome contributions! If you'd like to enhance the Text Summarization App, feel free to fork the repository, make your changes, and create a pull request. Here’s how you can contribute:
-
-1. Fork this repository.
-2. Clone your forked repository locally.
-3. Create a new branch (`git checkout -b new-feature`).
-4. Make your changes and commit them (`git commit -m 'Add a new feature'`).
-5. Push to your fork (`git push origin new-feature`).
-6. Open a pull request.
+```bash
+Text-Summarizer/
+│
+├── main.py                     # Entry point to run summarization
+├── summarizer.py               # Core summarization logic
+├── sample_input.txt            # Sample input file to test summarization
+├── saved_summarization_model/ # (Optional) directory to hold a saved model
+└── README.md                   # Project documentation
+```
 
 ---
 
+## 🛠️ How to Use
 
-## **Acknowledgments**
+### 🔹 Option 1: Load Model from Hugging Face (Recommen. Open `summarizer.py` and use the following code:
 
-* **Hugging Face** for providing a wide range of pre-trained models for text summarization.
-* **Flask** for making web development simple and quick.
+```python
+from transformers import pipeline
+
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+```
+
+2. Run the summarizer:
+
+```bash
+python main.py
+```
+
+3. The input will be read from `sample_input.txt` and the summary will be printed to the terminal.
 
 ---
 
-### **Contact**
+### 🔹 Option 2: Use Local Saved Model
 
-For any questions or suggestions, feel free to reach out to \[[yourname@email.com](mailto:tadapanenisriram333@email.com)] or open an issue in the repository.
+If you've trained or downloaded a model and placed it in `saved_summarization_model/`, modify `summarizer.py` like this:
+
+```python
+from transformers import BartTokenizer, BartForConditionalGeneration
+
+tokenizer = BartTokenizer.from_pretrained("saved_summarization_model/")
+model = BartForConditionalGeneration.from_pretrained("saved_summarization_model/")
+```
+
+Then run:
+
+```bash
+python main.py
+```
+
+> ⚠️ Note: The saved model is **not pushed** to this repository due to size constraints. You must manually place your model files inside the `saved_summarization_model/` directory.
+
+---
+
+## 📌 Sample Output
+
+### Input:
+```
+Text summarization is the task of shortening a set of data computationally to create a subset that represents the most important or relevant information```
+
+### Output:
+```
+Text summarization shortens large content to key points using machine learning models.
+```
+
+---
+
+## 📈 Future Enhancements
+
+- Add a web-based interface using Streamlit or Flask.
+- Support summarization for PDFs or web pages.
+- Add option for extractive summarization alongside abstractive.
+- Batch summarization of multiple documents.
+
+---
+
+## 🧑‍💻 Author
+
+- GitHub: [Nani1333](https://github.com/Nani1333)
 
 ---
