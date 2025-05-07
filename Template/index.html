@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarization App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #a8c8ff, #e0f7ff);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Container Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Title and Text Styling */
+        h1 {
+            font-size: 2.5rem;
+            color: #0077cc;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        p {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        textarea {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            resize: vertical;
+            min-height: 150px;
+            transition: all 0.3s;
+            background-color: #fafafa;
+        }
+        textarea:focus {
+            border-color: #0077cc;
+            background-color: #ffffff;
+            box-shadow: 0 0 5px rgba(0, 119, 204, 0.5);
+            outline: none;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #005fa3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            background-color: #004b8c;
+            transform: translateY(2px);
+        }
+
+        /* Loading and Summary Output */
+        #loading {
+            display: none;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #0077cc;
+        }
+        #summary-output {
+            display: none;
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        #summary-output h3 {
+            font-size: 1.25rem;
+            color: #333;
+        }
+        #summary-text {
+            font-size: 1.1rem;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                width: 90%;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content Container -->
+    <div class="container">
+        <h1>Text Summarization App</h1>
+        <p>Enter your dialogue below and get a concise summary instantly!</p>
+        <form id="summarization-form">
+            <textarea id="dialogue-input" placeholder="Type your dialogue here..." required></textarea>
+            <button type="submit">Summarize</button>
+        </form>
+        <div class="loading" id="loading">Summarizing...</div>
+        <div id="summary-output">
+            <h3>Summary:</h3>
+            <p id="summary-text"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("summarization-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const dialogue = document.getElementById("dialogue-input").value;
+            const loadingText = document.getElementById("loading");
+            const summaryOutput = document.getElementById("summary-output");
+            const summaryText = document.getElementById("summary-text");
+
+            // Show loading text and hide summary output initially
+            loadingText.style.display = "block";
+            summaryOutput.style.display = "none";
+
+            try {
+                const response = await fetch("/summarize/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ dialogue }),
+                });
+
+                const data = await response.json();
+                loadingText.style.display = "none"; // Hide loading text
+                summaryText.innerText = data.summary;
+
+                // Show the summary output
+                summaryOutput.style.display = "block";
+            } catch (error) {
+                loadingText.style.display = "none";
+                alert("An error occurred while summarizing. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>
