@@ -101,44 +101,6 @@ git clone https://github.com/yourusername/text-summarization-app.git
 
 ---
 
-## **Example Use Case**
-
-1. **Input**: A long piece of dialogue or text, for instance:
-
-   ```
-   The development of artificial intelligence (AI) has had a significant impact on various industries. From healthcare to finance, AI has been used to improve processes, automate tasks, and drive innovation. Many companies are now implementing AI-driven solutions to enhance customer experiences and streamline operations. However, the implementation of AI also raises concerns about privacy, ethics, and job displacement.
-   ```
-
-2. **Output (Summary)**:
-
-   ```
-   AI is revolutionizing industries by improving processes, automating tasks, and driving innovation. While it enhances customer experiences and streamlines operations, it also raises concerns about privacy, ethics, and job displacement.
-   ```
-
----
-
-## **API Endpoints (For Developers)**
-
-* **POST /summarize/**
-
-  * **Request Body**:
-
-    ```json
-    {
-      "dialogue": "Your text or dialogue goes here."
-    }
-    ```
-
-  * **Response**:
-
-    ```json
-    {
-      "summary": "This is the generated summary of the input text."
-    }
-    ```
-
----
-
 ## **Contributing**
 
 We welcome contributions! If you'd like to enhance the Text Summarization App, feel free to fork the repository, make your changes, and create a pull request. Here’s how you can contribute:
