@@ -137,10 +137,6 @@ Please ensure your code follows the project's coding standards and includes appr
 **Nani1333**
 - GitHub: [@Nani1333](https://github.com/Nani1333)
 
-## License 📄
-
-This project is open source and available under the MIT License.
-
 ---
 
 Made with ❤️ by Nani1333
